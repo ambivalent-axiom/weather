@@ -21,6 +21,15 @@
         curl_close($request);
         return $result;
     }
+    function getWindDirection(int $degree): string
+    {
+        $directions = ['N', 'NE', 'E', 'SE', 'S' , 'SW', 'W', 'NW', 'N'];
+        for ($i = 0, $d=22.5; $i < count($directions); $i++, $d+=45) {
+            if($d - $degree > 0) {
+                return $directions[$i] . "\n";
+            }
+        }
+    }
     function printWeather($result): void
     {
         echo $result->name . " " . $result->sys->country . "\n";
@@ -28,6 +37,7 @@
         echo "Current temp: " . $result->main->temp . "°C" .
             " Feels like: " . $result->main->feels_like . "°C" . "\n";
         echo "Wind speed: " . $result->wind->speed . "m/s" . "\n";
+        echo "Wind direction: " . getWindDirection($result->wind->deg) . "\n";
         echo "Visibility: " . $result->visibility . "m" . "\n";
         echo "Pressure: " . $result->main->pressure . "hPa" . "\n";
         echo "Humidity: " . $result->main->humidity . "%" . "\n";
